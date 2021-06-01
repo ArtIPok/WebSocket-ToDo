@@ -16,18 +16,22 @@ io.on('conection', (socket) => {
 
   socket.broadcast.emit('consection', updateDate(tasks));
 
-  socket.on('addTask', (task) => {
-    tasks.push(task);
+  socket.on('addTask', (newTask) => {
+    tasks.push(newTask);
     console.log(tasks);
-    socket.broadcast.emit('addTask', addTask);
+    socket.broadcast.emit('addTask', newTask);
+    console.log('user: ' + socket.id + 'just add new task' + newTask);
   });
 
-  socket.on('removeTask', (indexTask) => {
-    // const indexTask = tasks.indexOf(socket.id);
+  socket.on('removeTask', (idTask) => {
+    const idTaskToRemove = tasks.find(tasks => tasks.id === idTask);
+    const indexTask = tasks.indexOf(idTaskToRemove);
 
-    tasks.splice(indexTask, 1);
+    if(idTaskToRemove) {
+      tasks.splice(indexTask, 1);
+    }
     console.log(tasks);
-    socket.broadcast.emit('removeTask', removeTask);
+    socket.broadcast.emit('removeTask', idTask);
   });
 });
 

@@ -9,7 +9,7 @@ class App extends React.Component {
   };
 
   componentDidMount() {
-    this.socket = io();
+    this.socket = io('http://localhost:8000/');
     this.socket.on('addTask', (task) => this.addTask(task));
   };
 
@@ -21,7 +21,7 @@ class App extends React.Component {
   };
 
   render() {
-    const { tasks, newTask } = this.state;
+    const { tasks } = this.state;
 
     return (
       <div className="App">
