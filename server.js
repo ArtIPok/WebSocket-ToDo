@@ -13,7 +13,7 @@ const tasks = [];
 
 io.on('connection', (socket) => {
 
-  socket.broadcast.emit('updateData', tasks);
+  socket.emit('updateData', tasks);
 
   socket.on('addTask', (taskName) => {
     tasks.push(taskName);
