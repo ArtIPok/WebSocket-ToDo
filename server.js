@@ -11,16 +11,13 @@ const io = socket(server);
 
 const tasks = [];
 
-io.on('conection', (socket) => {
-  console.log('New user open our app, his id: ' + socket.id);
+io.on('connection', (socket) => {
 
-  socket.broadcast.emit('consection', updateDate(tasks));
+  socket.broadcast.emit('updateData', tasks);
 
-  socket.on('addTask', (newTask) => {
-    tasks.push(newTask);
-    console.log(tasks);
-    socket.broadcast.emit('addTask', newTask);
-    console.log('user: ' + socket.id + 'just add new task' + newTask);
+  socket.on('addTask', (taskName) => {
+    tasks.push(taskName);
+    socket.broadcast.emit('addTask', taskName);
   });
 
   socket.on('removeTask', (idTask) => {
@@ -30,11 +27,10 @@ io.on('conection', (socket) => {
     if(idTaskToRemove) {
       tasks.splice(indexTask, 1);
     }
-    console.log(tasks);
     socket.broadcast.emit('removeTask', idTask);
   });
 });
 
 app.use((req, res) => {
-  res.status(404).send({message: 'Not found...'});
+  res.status(200).send({message: 'everythings is ok!'});
 });
